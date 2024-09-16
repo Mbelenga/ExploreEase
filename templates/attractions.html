@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreEase - Attractions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/attractions.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ExploreEase</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('stays') }}">Stays</a></li>
+                <li><a href="{{ url_for('flights') }}">Flights</a></li>
+                <li><a href="{{ url_for('cabs') }}">Airport Cabs</a></li>
+                <li><a href="{{ url_for('attractions') }}" class="active">Attractions</a></li>
+            </ul>
+            <button class="book-trip">Book trip</button>
+            <select class="language-select">
+                <option value="en">EN</option>
+            </select>
+        </nav>
+        <div class="hero">
+            <h1>Discover Attractions</h1>
+            <p>Explore the top attractions in your destination and make the most of your trip!</p>
+        </div>
+    </header>
+    <main>
+        <div class="booking-form">
+            <h2>Search for Attractions</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label for="attraction-destination">Destination</label>
+                    <input type="text" id="attraction-destination" name="attraction-destination" placeholder="Enter city or location">
+                </div>
+                <button type="submit">Search Attractions</button>
+            </form>
+            {% if suggestions %}
+            <div class="suggestions">
+                <h3>Suggestions:</h3>
+                <ul>
+                    {% for suggestion in suggestions %}
+                    <li>{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

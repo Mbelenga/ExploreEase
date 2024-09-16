@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreEase - Your Travel Companion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ExploreEase</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+                <li><a href="{{ url_for('stays') }}">Stays</a></li>
+                <li><a href="{{ url_for('flights') }}">Flights</a></li>
+                <li><a href="{{ url_for('cabs') }}">Airport Cabs</a></li>
+                <li><a href="{{ url_for('attractions') }}">Attractions</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero">
+            <h1>Discover the World with Ease</h1>
+            <p>Find the best deals on stays, flights, and attractions. Your next adventure starts here!</p>
+            <button class="cta-button">Plan Your Trip</button>
+        </div>
+    </header>
+
+    <section class="destinations">
+        <h2>Popular Destinations</h2>
+        <div class="destination-grid">
+            <div class="destination-item">
+                <img src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHBhcmlzfGVufDB8fDB8fHww" alt="Paris">
+                <h3>Paris</h3>
+                <p>The city of love awaits you. Explore the Eiffel Tower and more.</p>
+            </div>
+            <div class="destination-item">
+                <img src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmV3JTIweW9ya3xlbnwwfHwwfHx8MA%3D%3D" alt="New York">
+                <h3>New York</h3>
+                <p>The city that never sleeps. Experience Times Square and beyond.</p>
+            </div>
+            <div class="destination-item">
+                <img src="https://media.istockphoto.com/id/607281390/photo/beach-with-palms-in-kenya.webp?a=1&b=1&s=612x612&w=0&k=20&c=0mVKtxQTS_DRjDalqfctqcK3BSQO5y1GIbiS9omrZNM=" alt="Mombasa">
+                <h3>Mombasa</h3>
+                <p>Explore the sandy beaches of the coast.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-item">
+                <p>"ExploreEase made our honeymoon trip unforgettable. Highly recommend!"</p>
+                <span>- Emily R.</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <div class="social-media">
+            <a href="#"><img src="{{ url_for('static', filename='facebook-icon.png') }}" alt="Facebook"></a>
+            <a href="#"><img src="{{ url_for('static', filename='twitter-icon.png') }}" alt="Twitter"></a>
+            <a href="#"><img src="{{ url_for('static', filename='instagram-icon.png') }}" alt="Instagram"></a>
+        </div>
+        <p>&copy; 2024 ExploreEase. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

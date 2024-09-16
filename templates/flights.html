@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreEase - Flights</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='flights.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ExploreEase</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('stays') }}">Stays</a></li>
+                <li><a href="{{ url_for('flights') }}" class="active">Flights</a></li>
+                <li><a href="{{ url_for('cabs') }}">Airport Cabs</a></li>
+                <li><a href="{{ url_for('attractions') }}">Attractions</a></li>
+            </ul>
+            <button class="book-trip">Book trip</button>
+            <select class="language-select">
+                <option value="en">EN</option>
+            </select>
+        </nav>
+        <div class="hero">
+            <h1>Find Your Flights</h1>
+            <p>Book flights to your favorite destinations quickly and easily.</p>
+        </div>
+    </header>
+    <main>
+        <div class="booking-form">
+            <h2>Search for Flights</h2>
+            <form>
+                <div class="form-group">
+                    <label for="departure">Departure</label>
+                    <input type="text" id="departure" placeholder="Enter departure city">
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <input type="text" id="destination" placeholder="Enter destination city">
+                </div>
+                <div class="form-group">
+                    <label for="departure-date">Departure Date</label>
+                    <input type="date" id="departure-date">
+                </div>
+                <div class="form-group">
+                    <label for="return-date">Return Date</label>
+                    <input type="date" id="return-date">
+                </div>
+                <button type="submit">Search Flights</button>
+            </form>
+        </div>
+    </main>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
