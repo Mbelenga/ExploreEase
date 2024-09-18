@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
-
+from flask import Flask, render_template, request, session, redirect, url_for
 app = Flask(__name__)
+app.secret_key = 'cfb53753ab86181b235fec27f2062feaea0bf48fdaa99e3a'
 
 # Sample data for demonstration purposes
 attractions_list = [
@@ -21,20 +21,31 @@ def get_suggestions(query, data_list):
 def index():
     return render_template('index.html')
 
-@app.route('/stays')
+@app.route('/stays', methods=['GET', 'POST'])
 def stays():
+    if request.method == 'POST':
+        # Store stay booking in session
+        session['stay'] = {
+            'destination': request.form['destination'],
+            'checkin': request.form['checkin'],
+            'checkout': request.form['checkout'],
+            'guests': request.form['guests'],
+            'rooms': request.form['rooms']
+        }
+        return redirect(url_for('payment'))  # Redirect to payment or summary page
     return render_template('stays.html')
 
 @app.route('/flights', methods=['GET', 'POST'])
 def flights():
     if request.method == 'POST':
-        departure = request.form.get('departure')
-        destination = request.form.get('destination')
-        departure_date = request.form.get('departure-date')
-        return_date = request.form.get('return-date')
-        # Handle flight search logic here
-        # For now, render the page with submitted data
-        return render_template('flights.html', departure=departure, destination=destination, departure_date=departure_date, return_date=return_date)
+        # Store flight booking in session
+        session['flight'] = {
+            'departure': request.form.get('departure'),
+            'destination': request.form.get('destination'),
+            'departure_date': request.form.get('departure-date'),
+            'return_date': request.form.get('return-date')
+        }
+        return redirect(url_for('payment'))  # Redirect to payment or summary page
     return render_template('flights.html')
 
 @app.route('/attractions', methods=['GET', 'POST'])
@@ -48,12 +59,21 @@ def attractions():
 @app.route('/cabs', methods=['GET', 'POST'])
 def cabs():
     if request.method == 'POST':
-        pickup_location = request.form.get('pickup-location')
-        dropoff_location = request.form.get('dropoff-location')
-        # Handle cab booking logic here
-        # For now, render the page with submitted data
-        return render_template('cabs.html', pickup_location=pickup_location, dropoff_location=dropoff_location)
+        # Store cab booking in session
+        session['cab'] = {
+            'pickup_location': request.form.get('pickup-location'),
+            'dropoff_location': request.form.get('dropoff-location')
+        }
+        return redirect(url_for('payment'))  # Redirect to payment or summary page
     return render_template('cabs.html')
+
+@app.route('/payment')
+def payment():
+    # Get bookings from session and pass to the template
+    stay = session.get('stay')
+    flight = session.get('flight')
+    cab = session.get('cab')
+    return render_template('payment.html', stay=stay, flight=flight, cab=cab)
 
 if __name__ == '__main__':
     app.run(debug=True)

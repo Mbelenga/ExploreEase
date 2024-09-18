@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ExploreEase - Attractions</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/attractions.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='attractions.css') }}">
 </head>
 <body>
     <header>
@@ -30,19 +30,19 @@
     <main>
         <div class="booking-form">
             <h2>Search for Attractions</h2>
-            <form method="post">
+            <form method="POST" action="{{ url_for('attractions') }}">
                 <div class="form-group">
                     <label for="attraction-destination">Destination</label>
                     <input type="text" id="attraction-destination" name="attraction-destination" placeholder="Enter city or location">
                 </div>
                 <button type="submit">Search Attractions</button>
             </form>
-            {% if suggestions %}
-            <div class="suggestions">
-                <h3>Suggestions:</h3>
-                <ul>
-                    {% for suggestion in suggestions %}
-                    <li>{{ suggestion }}</li>
+            {% if attractions %}
+            <div id="attraction-results">
+                <h2>Attractions Found</h2>
+                <ul id="attractions-list">
+                    {% for attraction in attractions %}
+                    <li>{{ attraction.name }} at {{ attraction.location }}</li>
                     {% endfor %}
                 </ul>
             </div>

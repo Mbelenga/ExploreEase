@@ -16,6 +16,8 @@
                 <li><a href="{{ url_for('flights') }}">Flights</a></li>
                 <li><a href="{{ url_for('cabs') }}">Airport Cabs</a></li>
                 <li><a href="{{ url_for('attractions') }}">Attractions</a></li>
+                <!-- Add the Payment link in the navbar for easy access -->
+                <li><a href="{{ url_for('payment') }}">Payment</a></li>
             </ul>
         </nav>
 
@@ -23,6 +25,8 @@
             <h1>Discover the World with Ease</h1>
             <p>Find the best deals on stays, flights, and attractions. Your next adventure starts here!</p>
             <button class="cta-button">Plan Your Trip</button>
+            <!-- Add a clear button for Payment on the homepage -->
+            <button class="cta-button" onclick="window.location.href='{{ url_for }}'">Go to Payment</button>
         </div>
     </header>
 
