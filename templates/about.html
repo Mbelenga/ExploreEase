@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExploreEase - About Us</title>
+    <style>
+        /* General Styles for the About Page */
+        .about {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .about h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .about p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .about ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .about ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Header and Footer Consistency */
+        header {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .social-media img {
+            width: 24px;
+            height: 24px;
+            margin: 0 5px;
+        }
+
+        /* Navigation Menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        nav ul li a.active {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ExploreEase</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about">
+            <h1>About ExploreEase</h1>
+            <p>ExploreEase is your all-in-one travel agency dedicated to providing a seamless travel experience. Whether you're looking for a relaxing stay, a convenient flight, an airport cab, or exciting attractions, we've got you covered. Our mission is to help you find the best deals and make your travel planning as easy as possible.</p>
+            <p>With ExploreEase, you can:</p>
+            <ul>
+                <li>Book stays in top destinations</li>
+                <li>Find and book flights with ease</li>
+                <li>Arrange airport cabs for a smooth travel experience</li>
+                <li>Discover and book attractions to enhance your trip</li>
+            </ul>
+            <p>Join us on your next adventure and experience travel like never before!</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="{{ url_for('about') }}">About Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <div class="social-media">
+            <a href="#"><img src="{{ url_for('static', filename='facebook-icon.png') }}" alt="Facebook"></a>
+            <a href="#"><img src="{{ url_for('static', filename='twitter-icon.png') }}" alt="Twitter"></a>
+            <a href="#"><img src="{{ url_for('static', filename='instagram-icon.png') }}" alt="Instagram"></a>
+        </div>
+        <p>&copy; 2024 ExploreEase. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

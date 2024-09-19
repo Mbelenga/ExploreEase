@@ -37,6 +37,8 @@
                 </div>
                 <button type="submit">Search Attractions</button>
             </form>
+
+            <!-- Display attractions if found -->
             {% if attractions %}
             <div id="attraction-results">
                 <h2>Attractions Found</h2>
@@ -45,6 +47,10 @@
                     <li>{{ attraction.name }} at {{ attraction.location }}</li>
                     {% endfor %}
                 </ul>
+            </div>
+            {% else %}
+            <div id="no-attractions">
+                <p>No attractions found. Try another location.</p>
             </div>
             {% endif %}
         </div>

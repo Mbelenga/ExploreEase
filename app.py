@@ -1,21 +1,43 @@
 from flask import Flask, render_template, request, session, redirect, url_for
+import requests  # Import requests for API calls
+
 app = Flask(__name__)
 app.secret_key = 'cfb53753ab86181b235fec27f2062feaea0bf48fdaa99e3a'
 
-# Sample data for demonstration purposes
-attractions_list = [
-    "Eiffel Tower, Paris",
-    "Louvre Museum, Paris",
-    "Statue of Liberty, New York",
-    "Central Park, New York",
-    "Great Wall of China, Beijing",
-    "Forbidden City, Beijing",
-]
+# Foursquare Places API key
+FOURSQUARE_API_KEY = 'fsq3QsHMBoW5VtmisozkgOwHed542bGf5tqrKJY0oHDjSJ0'
 
-def get_suggestions(query, data_list):
-    """Get search suggestions based on user query."""
-    suggestions = [item for item in data_list if query.lower() in item.lower()]
-    return suggestions
+def get_attractions_from_api(destination):
+    """Get attractions using the Foursquare API."""
+    url = 'https://api.foursquare.com/v3/places/search'
+    headers = {
+        'Authorization': FOURSQUARE_API_KEY
+    }
+    params = {
+        'query': 'attractions',
+        'near': destination,
+        'limit': 10
+    }
+    
+    response = requests.get(url, headers=headers, params=params)
+
+    # Debugging: Log response details to check if API call is successful
+    print(f"API Response Status Code: {response.status_code}")
+    print(f"API Response Text: {response.text}")
+
+    if response.status_code == 200:
+        data = response.json()
+        return [
+            {
+                'name': place.get('name'),
+                'location': place['location'].get('formatted_address', 'Unknown location')
+            }
+            for place in data.get('results', [])
+        ]
+    else:
+        # Log error details if API call fails
+        print(f"Error fetching data: {response.status_code}, {response.text}")
+        return []  # Return an empty list if the API call fails
 
 @app.route('/')
 def index():
@@ -53,7 +75,10 @@ def attractions():
     suggestions = []
     if request.method == 'POST':
         query = request.form.get('attraction-destination')
-        suggestions = get_suggestions(query, attractions_list)
+        
+        # Fetch attractions from the API
+        suggestions = get_attractions_from_api(query)
+    
     return render_template('attractions.html', suggestions=suggestions)
 
 @app.route('/cabs', methods=['GET', 'POST'])
@@ -74,6 +99,10 @@ def payment():
     flight = session.get('flight')
     cab = session.get('cab')
     return render_template('payment.html', stay=stay, flight=flight, cab=cab)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
