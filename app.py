@@ -1,43 +1,32 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import requests  # Import requests for API calls
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'cfb53753ab86181b235fec27f2062feaea0bf48fdaa99e3a'
 
-# Foursquare Places API key
-FOURSQUARE_API_KEY = 'fsq3QsHMBoW5VtmisozkgOwHed542bGf5tqrKJY0oHDjSJ0'
-
-def get_attractions_from_api(destination):
-    """Get attractions using the Foursquare API."""
-    url = 'https://api.foursquare.com/v3/places/search'
-    headers = {
-        'Authorization': FOURSQUARE_API_KEY
-    }
-    params = {
-        'query': 'attractions',
-        'near': destination,
-        'limit': 10
-    }
-    
-    response = requests.get(url, headers=headers, params=params)
-
-    # Debugging: Log response details to check if API call is successful
-    print(f"API Response Status Code: {response.status_code}")
-    print(f"API Response Text: {response.text}")
-
-    if response.status_code == 200:
-        data = response.json()
-        return [
-            {
-                'name': place.get('name'),
-                'location': place['location'].get('formatted_address', 'Unknown location')
-            }
-            for place in data.get('results', [])
-        ]
-    else:
-        # Log error details if API call fails
-        print(f"Error fetching data: {response.status_code}, {response.text}")
-        return []  # Return an empty list if the API call fails
+# Simulate a flight search with mock data
+def search_flights(departure, destination, departure_date, return_date):
+    """Simulate a flight search with static data."""
+    return [
+        {
+            'airline': 'Kenya Airways',
+            'departure_city': departure,
+            'destination_city': destination,
+            'price': 450
+        },
+        {
+            'airline': 'Emirates',
+            'departure_city': departure,
+            'destination_city': destination,
+            'price': 650
+        },
+        {
+            'airline': 'Qatar Airways',
+            'departure_city': departure,
+            'destination_city': destination,
+            'price': 600
+        }
+    ]
 
 @app.route('/')
 def index():
@@ -59,27 +48,63 @@ def stays():
 
 @app.route('/flights', methods=['GET', 'POST'])
 def flights():
+    flights = []
     if request.method == 'POST':
-        # Store flight booking in session
+        departure = request.form.get('departure')
+        destination = request.form.get('destination')
+        departure_date = request.form.get('departure-date')
+        return_date = request.form.get('return-date')
+
+        # Simulate a flight search and return results
+        flights = search_flights(departure, destination, departure_date, return_date)
+
+        # Store selected flight details in session if needed
         session['flight'] = {
-            'departure': request.form.get('departure'),
-            'destination': request.form.get('destination'),
-            'departure_date': request.form.get('departure-date'),
-            'return_date': request.form.get('return-date')
+            'departure': departure,
+            'destination': destination,
+            'departure_date': departure_date,
+            'return_date': return_date,
+            'flights': flights  # Store available flights (or selected one)
         }
-        return redirect(url_for('payment'))  # Redirect to payment or summary page
-    return render_template('flights.html')
+
+    return render_template('flights.html', flights=flights)
+
+def get_attractions_from_api(query):
+    headers = {
+        'Accept': 'application/json',
+        'Authorization': 'fsq3QsHMBoW5VtmisozkgOwHed542bGf5tqrKJY0oHDjSJ0='
+    }
+    
+    params = {
+        'query': query,
+        'limit': 10  # You can change this number depending on how many results you want
+    }
+    
+    api_url = 'https://api.foursquare.com/v3/places/search'
+    
+    try:
+        response = requests.get(api_url, headers=headers, params=params)
+        response.raise_for_status()  # Raise an error for bad responses (4xx, 5xx)
+        data = response.json()
+        return data.get('results', [])  # Return the list of attractions from the JSON response
+    except requests.RequestException as e:
+        print(f"API request failed: {e}")
+        return []  # Return an empty list if the API call fails
 
 @app.route('/attractions', methods=['GET', 'POST'])
 def attractions():
-    suggestions = []
-    if request.method == 'POST':
-        query = request.form.get('attraction-destination')
-        
-        # Fetch attractions from the API
-        suggestions = get_attractions_from_api(query)
+    query = ''
     
+    if request.method == 'POST':
+        query = request.form.get('query', '')  # Get query from form submission
+        
+    elif request.method == 'GET':
+        query = request.args.get('query', '')  # Get query from URL query parameters
+    
+    suggestions = get_attractions_from_api(query)  # Call the function to get API results
     return render_template('attractions.html', suggestions=suggestions)
+
+
 
 @app.route('/cabs', methods=['GET', 'POST'])
 def cabs():
@@ -103,6 +128,7 @@ def payment():
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

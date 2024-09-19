@@ -26,6 +26,27 @@
             color: #333;
         }
 
+        .flight-details {
+            margin-bottom: 30px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .flight-details h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #007bff;
+            text-align: center;
+        }
+
+        .flight-details p {
+            margin: 5px 0;
+            text-align: center;
+            color: #555;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -88,6 +109,17 @@
 
     <div class="payment-container">
         <h2>Payment Details</h2>
+
+        <!-- Display flight details if available -->
+        {% if flight %}
+        <div class="flight-details">
+            <h3>Selected Flight</h3>
+            <p><strong>Departure:</strong> {{ flight.departure }}</p>
+            <p><strong>Destination:</strong> {{ flight.destination }}</p>
+            <p><strong>Departure Date:</strong> {{ flight.departure_date }}</p>
+            <p><strong>Return Date:</strong> {{ flight.return_date }}</p>
+        </div>
+        {% endif %}
 
         <form action="/process_payment" method="POST">
             <div class="form-group">
